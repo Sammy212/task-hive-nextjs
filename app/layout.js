@@ -12,7 +12,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        signIn: {
+          variables: { colorPrimary: "#f9aa11"},
+        },
+        signUp: {
+          variables: { colorPrimary: "#f9aa11"},
+        },
+      }}
+    >
       <html lang="en">
         <body className={inter.className}>
           <StyledComponentsRegistry>

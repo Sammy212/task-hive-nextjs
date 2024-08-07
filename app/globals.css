@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow: hidden;
+    color-scheme: dark;
+}
+
+:root {
+    --primary: #f9aa11;
+}
+
+/* Clerk Styling Properties */
+.cl-logoImage {
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 20px;
+}
+
+.cl-card {
+    box-shadow: none;
+}
