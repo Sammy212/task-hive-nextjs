@@ -1,11 +1,27 @@
-import { SettingsContextProvider } from '@/context/settings/settings-provider'
-import React from 'react'
+"use client";
+import React from 'react';
+import Box from '@/components/Box/Box';
+import { SettingsContextProvider } from '@/context/settings/settings-provider';
+import ThemeProvider from '@/lib/ThemeProvider';
+import css from '@/styles/homeLayout.module.css';
+import Header from '@/components/Header';
 
 const HomeLayout = ({children}) => {
   return (
     <SettingsContextProvider>
         <ThemeProvider>
-            <div>{children}</div>
+            <Box type="baseBg"
+                style={{
+                    position: 'relative', 
+                    width: "100vw", 
+                    height: "100vh"
+                }}
+            >
+                <div className={css.wrapper}>
+                    {/* header */}
+                    <Header/>
+                </div>
+            </Box>
         </ThemeProvider>
     </SettingsContextProvider>
   )
