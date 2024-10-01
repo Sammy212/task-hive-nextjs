@@ -3,6 +3,8 @@ import css from "@/styles/header.module.css"
 import Box from './Box/Box'
 import Image from 'next/image'
 import { Flex } from 'antd'
+import ThemeButton from './ThemeButton'
+import { UserButton } from '@clerk/nextjs'
 
 const Header = () => {
   return (
@@ -21,8 +23,10 @@ const Header = () => {
                 {/* Header right side */}
                 <Flex gap={25} align='center'>
                     {/* Theme button */}
-
+                    <ThemeButton/>
+                    
                     {/* User Button */}
+                    <UserButton afterSignOutUrl='/sign-in' />
                 </Flex>
             </div>
         </Box>

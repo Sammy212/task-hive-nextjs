@@ -12,6 +12,7 @@
     "@ant-design/cssinjs": "^1.18.0",
     "@ant-design/happy-work-theme": "^1.0.0",
     "@clerk/nextjs": "^4.27.2",
+    "@iconify/react": "^4.1.1",
     "antd": "^5.11.5",
     "next": "^14.2.5",
     "react": "^18",
