@@ -33,3 +33,12 @@
 .item.active {
     background: var(--primary-low);
 }
+
+/* Styles for mobile */
+.drawerContainer {
+    height: 100%;
+}
+
+.drawerContainer aside {
+    height: 100%;
+}

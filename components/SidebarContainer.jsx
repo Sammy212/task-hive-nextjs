@@ -1,6 +1,7 @@
+import React from 'react'
 import useWindowDimensions from '@/hooks/useWindowsDimensions'
 import { Drawer } from 'antd'
-import React from 'react'
+import css from "@/styles/sidebar.module.css";
 
 const SidebarContainer = ({
     isDrawerOpen,
@@ -18,11 +19,21 @@ const SidebarContainer = ({
                 onClose={() => setIsDrawerOpen(false)}
                 {...other}
                 height={"100%"}
+                className={css.sidebarContainer}
             >
-                <div>{children}</div>
+                <div className={css.drawerContainer}>
+                    {children}
+                </div>
             </Drawer>
         )
     }
-}
+    else {
+        return (
+            <div>
+                {children}
+            </div>
+        )
+    }
+};
 
 export default SidebarContainer
