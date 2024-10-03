@@ -9,7 +9,7 @@ const Box = ({
     style,
     ...other
 }) => {
-    const {token} = useToken()
+    const {token} = useToken();
   return (
     <div
         {...other}

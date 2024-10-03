@@ -1,16 +1,22 @@
-import React from 'react'
-import css from "@/styles/header.module.css"
-import Box from './Box/Box'
-import Image from 'next/image'
-import { Flex } from 'antd'
-import ThemeButton from './ThemeButton'
-import { UserButton } from '@clerk/nextjs'
+import React from 'react';
+import css from "@/styles/header.module.css";
+import Box from './Box/Box';
+import Image from 'next/image';
+import { Flex } from 'antd';
+import ThemeButton from './ThemeButton';
+import { UserButton } from '@clerk/nextjs';
+import SidebarButton from './SidebarButton';
 
 const Header = () => {
   return (
     <div className={css.wrapper}>
         <Box style={{ height: "100%" }}>
             <div className={css.container}>
+
+                {/* Mobile view side bar button */}
+                <div className={css.sidebarButton}>
+                    <SidebarButton />
+                </div>
 
                 {/* Header left side */}
                 <Image src={"/images/logo.png"}

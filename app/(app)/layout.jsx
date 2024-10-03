@@ -5,6 +5,7 @@ import { SettingsContextProvider } from '@/context/settings/settings-provider';
 import ThemeProvider from '@/lib/ThemeProvider';
 import css from '@/styles/homeLayout.module.css';
 import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
 
 const HomeLayout = ({children}) => {
   return (
@@ -20,6 +21,15 @@ const HomeLayout = ({children}) => {
                 <div className={css.wrapper}>
                     {/* header */}
                     <Header/>
+
+                    {/* Sidebar */}
+                    <div className={css.container}>
+                        <Sidebar/>
+
+                        <div className={css.page_body}>
+                            {children}
+                        </div>
+                    </div>
                 </div>
             </Box>
         </ThemeProvider>

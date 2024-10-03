@@ -8,6 +8,7 @@ const ThemeButton = () => {
   return (
     <Button
         style={{padding: 0, border: "none", backgroundColor: "transparent"}}
+        // type='text'
         onClick={() => {
             setSettings((prev) => ({
                 ...prev,
