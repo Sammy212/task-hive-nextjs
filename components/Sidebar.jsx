@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Link from 'next/link';
 import css from "@/styles/sidebar.module.css";
 import { sidebarRoutes } from '@/lib/sidebarRoutes';
@@ -15,6 +15,12 @@ import SidebarContainer from './SidebarContainer';
 const Sidebar = () => {
     const router = useRouter();
     const {signOut} = useClerk();
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const {
         settings: { isSidebarOpen },
@@ -42,6 +48,7 @@ const Sidebar = () => {
     };
 
   return (
+    mounted && (
     <SidebarContainer
         isDrawerOpen = {isSidebarOpen}
         setIsDrawerOpen = {handleDrawerClose}
@@ -92,7 +99,7 @@ const Sidebar = () => {
             </Box>
         </div>
     </SidebarContainer>
-  )
+    ))
 }
 
 export default Sidebar

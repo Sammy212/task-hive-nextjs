@@ -89,3 +89,28 @@ export const deleteUser = async (id) => {
         };
     }
 }
+
+// Get User
+export const getUser = async (id) => {
+    try {
+        const user = await db.user.findUnique({
+            where: {
+                id,
+            },
+            select: {
+                id: true,
+                first_name: true,
+                last_name: true,
+                email_address: true,
+                image_url: true,
+                username: true,
+                banner_url: true,
+                banner_id: true,
+            },
+        });
+    } catch (e) {
+        return {
+            error: "failed to get user from dataBase",
+        }
+    }
+}
