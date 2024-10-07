@@ -29,7 +29,7 @@ const SidebarContainer = ({
     }
     else {
         return (
-            <div>
+            <div className={css.drawerContainer}>
                 {children}
             </div>
         )
