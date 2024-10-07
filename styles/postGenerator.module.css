@@ -1,0 +1,14 @@
+.postGenWrapper {
+    border-radius: 1rem;
+}
+
+.container {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.bottom {
+    width: 100%;
+}
