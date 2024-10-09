@@ -1,6 +1,7 @@
 "use server";
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
+import { uploadFile } from "./uploadFile";
 
 export const createPost = async (post) => {
     try {
@@ -8,9 +9,20 @@ export const createPost = async (post) => {
 
         const user = await currentUser()
 
+        let cld_id;
+        let assetUrl
+        if(media) {
+            const res = await uploadFile(media, `/posts/${user?.id}`);
+            const {public_id, secure_url} = res;
+            cld_id = public_id
+            assetUrl = secure_url
+        }
+
         const newPost = await db.post.create({
             data : {
                 postText,
+                media: assetUrl,
+                cld_id,
                 author: {
                     connect :{
                         id: user?.id
@@ -26,7 +38,7 @@ export const createPost = async (post) => {
         }
         
     } catch (e) {
-        console.log(e);
+        console.log(e?.message);
         throw new Error("failed to create post")
         
     }
