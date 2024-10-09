@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import css from "@/styles/postGenerator.module.css";
 import Box from './Box/Box';
-import { Avatar, Button, Flex, Input, Typography } from 'antd';
+import { Avatar, Button, Flex, Image, Input, Typography } from 'antd';
 import { useUser } from '@clerk/nextjs';
 import { Icon } from '@iconify/react';
 
@@ -37,6 +37,12 @@ const PostGenerator = () => {
         }
     };
 
+    // Handle remove Post file
+    const handleRemoveFile = () => {
+        setSelectedFile(null);
+        setFileType(null);
+    }
+
   return (
     <>
         <div className={css.postGenWrapper}>
@@ -60,6 +66,50 @@ const PostGenerator = () => {
                             onChange = {(e) => setPostText(e.target.value)}
                         />
                     </Flex>
+
+                    {/* Post Preview */}
+                    {
+                        fileType && (
+                            <div className={css.previewContainer}>
+                                {/* Remove Post File Button */}
+                                <Button
+                                    type="default"
+                                    className={css.remove}
+                                    style={{ position: "absolute" }}
+                                >
+                                    <Typography
+                                        className="typoCaption"
+                                        onClick={handleRemoveFile}
+                                    >
+                                        Remove
+                                    </Typography>
+                                </Button>
+
+                                {
+                                    fileType === "image" && (
+                                        <Image 
+                                            src={selectedFile} 
+                                            className={css.preview} 
+                                            alt="Post Image Preview"
+                                            width={"100%"}
+                                            height={"350px"}
+                                            objectFit="cover"
+                                        />
+                                    )
+                                }
+                                {
+                                    fileType === "video" && (
+                                        <video 
+                                            src={selectedFile} 
+                                            className={css.preview}
+                                            controls
+                                            width={"100%"}
+                                        />
+                                    )
+                                }
+                            </div>
+                        )
+                    }
 
                     {/* Post Bottom */}
                     <Flex
@@ -126,8 +176,7 @@ const PostGenerator = () => {
 
         {/* Hidden buttons */}
         {/* Image files button */}
-        <input 
-            type="file" 
+        <input type="file" 
             accept="image/*"
             multiple={false}
             style={{ display: "none" }}
@@ -136,8 +185,7 @@ const PostGenerator = () => {
         />
 
         {/* Video files button */}
-        <input 
-            type="file" 
+        <input type="file" 
             accept="video/*"
             multiple={false}
             style={{ display: "none" }}
