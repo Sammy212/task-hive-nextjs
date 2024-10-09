@@ -5,6 +5,9 @@ import Box from './Box/Box';
 import { Avatar, Button, Flex, Image, Input, Typography } from 'antd';
 import { useUser } from '@clerk/nextjs';
 import { Icon } from '@iconify/react';
+import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createPost } from '@/actions/post';
 
 const PostGenerator = () => {
 
@@ -14,6 +17,23 @@ const PostGenerator = () => {
     const vidInputRef = React.useRef(null);
     const [fileType, setFileType] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
+
+    const queryClient = useQueryClient()
+    const {mutate: execute , isPending} = useMutation({
+        mutationFn: (data) => createPost(data),
+        onSuccess: () => {
+            handleSuccess();
+            queryClient.invalidateQueries("posts")
+        },
+        onError: () => showError("Something went wrong. Try Again?")
+    })
+
+    const handleSuccess = () => {
+        setSelectedFile(null)
+        setFileType(null)
+        setPostText("")
+        toast.success("Post created successfully")
+    }
     
 
     const handleFileChange = (e) => {
@@ -41,6 +61,23 @@ const PostGenerator = () => {
     const handleRemoveFile = () => {
         setSelectedFile(null);
         setFileType(null);
+    }
+
+
+    // Show error | Empty Post Event
+    const showError = (msg = "Something went wrong try again.") => {
+        toast.error(msg)
+    }
+    
+    // Handle Post Event
+    const submitPost = () => {
+        // first check post and post file
+        if ((postText === "" || !postText) && !selectedFile) {
+            showError("Can't make an empty post, Share what you are thinking today")
+            return;
+        }
+
+        execute({postText, media: selectedFile})
     }
 
   return (
@@ -157,6 +194,7 @@ const PostGenerator = () => {
                         <Button
                             type="primary" 
                             style={{ marginLeft: "auto" }}
+                            onClick={submitPost}
                         >
                             <Flex
                                 align="center"
