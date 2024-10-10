@@ -4,6 +4,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { Flex, Spin, Typography } from 'antd';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import Post from './Post';
 
 const Posts = () => {
 
@@ -16,13 +17,20 @@ const Posts = () => {
     }
 
     const {
-        data, isLoading, isError, isSuccess, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage
+        data, 
+        isLoading, 
+        isError, 
+        isSuccess, 
+        hasNextPage, 
+        fetchNextPage, 
+        isFetching, 
+        isFetchingNextPage
     } = useInfiniteQuery({
         queryKey: "posts",
         queryFn: ({ pageParam = "" }) => getMyFeedPosts(pageParam),
         getNextPageParam: (lastPage) => {
             return lastPage?.metaData?.lastCursor
-        }
+        },
     });
     
     useEffect(() => {
@@ -51,12 +59,12 @@ const Posts = () => {
                     data?.pages?.map((page) => 
                         page?.data?.map((post, index) =>
                             checkLastViewRef(index, page) ? (
-                            <div key={post?.id} style={{width: "100%", background: "blue", height: "30rem"}} ref={ref}>
-                                <span>Post</span>
+                            <div key={post?.id} ref={ref}>
+                                <Post data={post}/>
                             </div>
                             ) : (
-                            <div key={post?.id} style={{width: "100%", background: "blue", height: "30rem"}}>
-                                <span>Post</span>
+                            <div key={post?.id}>
+                                <Post data={post}/>
                             </div>
                         ))
                     )

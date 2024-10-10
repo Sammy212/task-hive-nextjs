@@ -19,6 +19,7 @@
     "antd": "^5.11.5",
     "classnames": "^2.5.1",
     "cloudinary": "^1.41.0",
+    "dayjs": "^1.11.13",
     "localtunnel": "^2.0.2",
     "next": "^14.2.5",
     "react": "^18",
