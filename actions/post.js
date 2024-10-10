@@ -47,11 +47,12 @@ export const createPost = async (post) => {
 
 export const getMyFeedPosts = async (lastCursor) => {
     try {
+        const take = 5; // number of post loaded at a time from db
         const posts = await db.post.findMany({
             include: {
                 author:  true
             },
-            take: 5, // number of post loaded at a time from db
+            take, 
             ...(lastCursor && {
                 skip: 1,
                 cursor: {
@@ -68,12 +69,28 @@ export const getMyFeedPosts = async (lastCursor) => {
                 data: [],
                 metaData: {
                     lastCursor: null,
-                    hasMore: false
-                }
-            }
+                    hasMore: false,
+                },
+            };
         }
+        const lastPostInResults = posts[posts.length - 1];
+        const cursor = lastPostInResults.id;
+        const morePosts = await db.post.findMany({
+            take,
+            skip: 1,
+            cursor: {
+                id: cursor
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
         return {
-            data: posts
+            data: posts,
+            metaData: {
+                lastCursor: cursor,
+                hasMore: morePosts.length > 0
+            }
         }
     } catch(e) {
         console.log(e);
