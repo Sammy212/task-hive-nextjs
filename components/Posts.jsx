@@ -15,7 +15,9 @@ const Posts = () => {
         } else return false;
     }
 
-    const {data, isLoading, isError, isSuccess, hasNextPage, fetchNextPage} = useInfiniteQuery({
+    const {
+        data, isLoading, isError, isSuccess, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage
+    } = useInfiniteQuery({
         queryKey: "posts",
         queryFn: ({ pageParam = "" }) => getMyFeedPosts(pageParam),
         getNextPageParam: (lastPage) => {
@@ -37,7 +39,7 @@ const Posts = () => {
         return(
             <Flex vertical align="center" gap="large">
                 <Spin />
-                <Typography>Loading...</Typography>
+                <Typography>Loading Your Feed...</Typography>
             </Flex>
         )
     }
@@ -59,8 +61,16 @@ const Posts = () => {
                         ))
                     )
                 }
+                {
+                    (isLoading || isFetchingNextPage || isFetching) && (
+                        <Flex vertical align="center" gap="large">
+                            <Spin />
+                            <Typography>Loading...</Typography>
+                        </Flex>
+                    )
+                }
             </Flex>
-        )
+        );
     }
 }
 
