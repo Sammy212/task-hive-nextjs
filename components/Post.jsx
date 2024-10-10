@@ -4,6 +4,7 @@ import Box from './Box/Box';
 import { Avatar, Flex, Image, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { getFileTypeFromUrl } from '@/utils';
+import LikeButton from './LikeButton';
 
 const Post = ({data}) => {
     
@@ -60,6 +61,23 @@ const Post = ({data}) => {
                         </div>
                     )
                 }
+                {
+                    getFileTypeFromUrl(data?.media) === "video" && (
+                        <div className={css.media}>
+                            <video
+                                src={data?.media}
+                                controls
+                                style={{ width: "100%", height: "100%"}}
+                            />
+                        </div>
+                    )
+                }
+
+                {/* Like and Comment Actions */}
+                <Flex>
+                    <LikeButton/>
+                    <span>Comments</span>
+                </Flex>
             </div>
         </Box>
     </div>
