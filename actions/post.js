@@ -2,6 +2,7 @@
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import { uploadFile } from "./uploadFile";
+import Posts from "@/components/Posts";
 
 export const createPost = async (post) => {
     try {
@@ -41,5 +42,41 @@ export const createPost = async (post) => {
         console.log(e?.message);
         throw new Error("failed to create post")
         
+    }
+}
+
+export const getMyFeedPosts = async (lastCursor) => {
+    try {
+        const posts = await db.post.findMany({
+            include: {
+                author:  true
+            },
+            take: 5, // number of post loaded at a time from db
+            ...(lastCursor && {
+                skip: 1,
+                cursor: {
+                    id: lastCursor
+                }
+            }),
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        if (posts.length === 0) {
+            return {
+                data: [],
+                metaData: {
+                    lastCursor: null,
+                    hasMore: false
+                }
+            }
+        }
+        return {
+            data: posts
+        }
+    } catch(e) {
+        console.log(e);
+        throw new Error("Failed to fetch posts");
     }
 }
