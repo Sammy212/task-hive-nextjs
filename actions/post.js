@@ -50,7 +50,9 @@ export const getMyFeedPosts = async (lastCursor) => {
         const take = 5; // number of post loaded at a time from db
         const posts = await db.post.findMany({
             include: {
-                author:  true
+                author:  true,
+                likes: true,
+                comments: true,
             },
             take, 
             ...(lastCursor && {

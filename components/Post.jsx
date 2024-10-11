@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { getFileTypeFromUrl } from '@/utils';
 import LikeButton from './LikeButton';
 
-const Post = ({data}) => {
+const Post = ({ data, queryId }) => {
     
     
   return (
@@ -75,8 +75,12 @@ const Post = ({data}) => {
 
                 {/* Like and Comment Actions */}
                 <Flex>
-                    <LikeButton/>
-                    <span>Comments</span>
+                    <LikeButton
+                        postId={data?.id}
+                        likes={data?.likes}
+                        queryId={queryId}
+                    />
+                    {/* <span>Comments</span> */}
                 </Flex>
             </div>
         </Box>
