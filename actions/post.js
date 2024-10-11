@@ -2,7 +2,6 @@
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import { uploadFile } from "./uploadFile";
-import Posts from "@/components/Posts";
 
 export const createPost = async (post) => {
     try {
@@ -99,3 +98,65 @@ export const getMyFeedPosts = async (lastCursor) => {
         throw new Error("Failed to fetch posts");
     }
 }
+
+
+export const updatePostLike = async (params) => {
+    const { postId, actionType } = params; // Destructuring params
+    try {
+      const { id: userId } = await currentUser();
+  
+      // Find the post with likes included
+      const post = await db.post.findUnique({
+        where: { id: postId },
+        include: { likes: true },
+      });
+  
+      // Return an error if the post is not found
+      if (!post) {
+        return { error: "Post not found" };
+      }
+  
+      // Check if the user has already liked the post
+      const existingLike = post.likes.find(like => like.authorId === userId);
+  
+      // If user already liked the post
+      if (existingLike) {
+        if (actionType === "like") {
+          // If the user is trying to like it again, return the unchanged post
+          return { data: post };
+        }
+        // Otherwise, delete the existing like (user is unliking)
+        await db.like.delete({
+          where: { id: existingLike.id },
+        });
+        console.log("Like deleted");
+      } else {
+        // If the user has not liked the post yet
+        if (actionType === "unlike") {
+          // If trying to unlike without liking, return the unchanged post
+          return { data: post };
+        }
+        // Otherwise, create a new like (user is liking)
+        await db.like.create({
+          data: {
+            post: { connect: { id: postId } },
+            author: { connect: { id: userId } },
+          },
+        });
+        console.log("Like created");
+      }
+  
+      // Fetch the updated post with likes included
+      const updatedPost = await db.post.findUnique({
+        where: { id: postId },
+        include: { likes: true },
+      });
+  
+      return { data: updatedPost };
+  
+    } catch (e) {
+      console.error(e);
+      throw new Error(`Failed to update post like: ${e.message}`);
+    }
+};
+  

@@ -56,7 +56,7 @@ const Post = ({ data, queryId }) => {
                                 src={data?.media}
                                 alt="post media"
                                 style={{objectFit: "cover"}}
-                                fill
+                                // fill = {true}
                             />
                         </div>
                     )
