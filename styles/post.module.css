@@ -27,3 +27,9 @@
     object-fit: cover;
     border-radius: 1rem;
 }
+
+.comment {
+    background: #f4f6f8;
+    border-radius: 1rem;
+    padding: 1rem;
+}

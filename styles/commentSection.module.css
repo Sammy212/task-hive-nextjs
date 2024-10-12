@@ -1,0 +1,8 @@
+.comment {
+    background: #f4f6f8;
+    border-radius: 1rem;
+    padding: 1rem;
+    &.dark {
+        background: #0000003b;
+    }
+}

@@ -15,7 +15,7 @@ const CommentSection = ({comments, postId, queryId}) => {
             {
                 comments?.length > 1 && (
                     <Button type='text' onClick={() => setExpanded((prev) => !prev)}>
-                        <Flex>
+                        <Flex align="center" gap={".5rem"} justify="center" >
                             <Icon icon = "ic:outline-expand-more"/>
                             Show more comments
                         </Flex>
