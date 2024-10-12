@@ -44,6 +44,7 @@ export const createPost = async (post) => {
     }
 }
 
+
 export const getMyFeedPosts = async (lastCursor) => {
     try {
         const take = 5; // number of post loaded at a time from db
@@ -51,7 +52,9 @@ export const getMyFeedPosts = async (lastCursor) => {
             include: {
                 author:  true,
                 likes: true,
-                comments: true,
+                comments: {
+                    include: { author: true },
+                },
             },
             take, 
             ...(lastCursor && {
@@ -159,4 +162,34 @@ export const updatePostLike = async (params) => {
       throw new Error(`Failed to update post like: ${e.message}`);
     }
 };
-  
+
+
+export const addComment = async (postId, comment)   => {
+    try {
+        const {id: userId} = await currentUser();
+        const newComment = await db.comment.create({
+            data: {
+                comment,
+                post: {
+                    connect: {
+                        id: postId
+                    }
+                },
+                author: {
+                    connect: {
+                        id: userId
+                    }
+                }
+            }
+        })
+        console.log("comment created", newComment);
+        return {
+            data: newComment,
+        };
+    } catch (e) {
+        console.log(e);
+        throw new Error("Failed to add comment");
+        
+        
+    }
+}

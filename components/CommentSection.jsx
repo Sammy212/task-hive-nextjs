@@ -3,6 +3,7 @@ import { Button, Flex } from 'antd';
 import React from 'react';
 import css from "@/styles/commentSection.module.css";
 import CommentInput from './CommentInput';
+import Comment from './Comment';
 
 const CommentSection = ({comments, postId, queryId}) => {
 
@@ -29,9 +30,16 @@ const CommentSection = ({comments, postId, queryId}) => {
                         vertical gap={".5rem"} className={css.commentsContainer}
                     >
                         {
-                            !expanded ? ( <span>Not Expanded</span> ) : (
+                            !expanded ? ( 
+                                <Comment
+                                    data={comments[comments.length - 1]}
+                                />
+                            ) : (
                                 comments.map((comment, index) => (
-                                    <span key={index}>Expanded Comments</span>
+                                    <Comment 
+                                        key={index} 
+                                        data={comment}
+                                    />
                                 ))
                             )
                         }
